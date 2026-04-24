@@ -381,7 +381,7 @@ app.post("/api/snapshot", async (request, reply) => {
     };
     const markdown = buildMarkdownReport(audit);
     const pdf = await buildPdfReport(audit);
-    const workbook = buildIssuesWorkbook(audit);
+    const workbook = await buildIssuesWorkbook(audit);
     audit.exports = {
       markdownPath: await writeAuditExport(audit.id, "report.md", markdown),
       pdfPath: await writeAuditExport(audit.id, "report.pdf", pdf),
