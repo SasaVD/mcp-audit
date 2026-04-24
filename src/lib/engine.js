@@ -70,7 +70,7 @@ async function fetchCollectionSchemas(client, collections) {
 async function buildExports(audit) {
   const markdown = buildMarkdownReport(audit);
   const pdf = await buildPdfReport(audit);
-  const workbook = buildIssuesWorkbook(audit);
+  const workbook = await buildIssuesWorkbook(audit);
 
   const [markdownPath, pdfPath, workbookPath] = await Promise.all([
     writeAuditExport(audit.id, "report.md", markdown),

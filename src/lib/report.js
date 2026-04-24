@@ -1,5 +1,5 @@
 import PDFDocument from "pdfkit";
-import XLSX from "xlsx";
+import ExcelJS from "exceljs";
 
 import { formatDate, round } from "./utils.js";
 
@@ -117,7 +117,7 @@ export function buildMarkdownReport(audit) {
   return lines.join("\n");
 }
 
-export function buildIssuesWorkbook(audit) {
+export async function buildIssuesWorkbook(audit) {
   const rows = audit.result.issues.map((issue) => ({
     Dimension: issue.dimension,
     Severity: issue.severity,
@@ -129,10 +129,18 @@ export function buildIssuesWorkbook(audit) {
     EffortEstimate: issue.effortEstimate ?? ""
   }));
 
-  const workbook = XLSX.utils.book_new();
-  const worksheet = XLSX.utils.json_to_sheet(rows.length ? rows : [{ Note: "No issues detected" }]);
-  XLSX.utils.book_append_sheet(workbook, worksheet, "Issues");
-  return XLSX.write(workbook, { type: "buffer", bookType: "xlsx" });
+  const workbook = new ExcelJS.Workbook();
+  const worksheet = workbook.addWorksheet("Issues");
+
+  if (rows.length) {
+    worksheet.columns = Object.keys(rows[0]).map((key) => ({ header: key, key }));
+    worksheet.addRows(rows);
+  } else {
+    worksheet.columns = [{ header: "Note", key: "Note" }];
+    worksheet.addRow({ Note: "No issues detected" });
+  }
+
+  return Buffer.from(await workbook.xlsx.writeBuffer());
 }
 
 export async function buildPdfReport(audit) {
