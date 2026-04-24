@@ -1,6 +1,6 @@
 # MCP Audit
 
-Pragmatic V1 implementation of the MCP Readiness Audit defined in [prd.md](/Users/yaya/Gizmo/mcp-audit/prd.md) and [audit-ruleset.md](/Users/yaya/Gizmo/mcp-audit/audit-ruleset.md). /asd
+Pragmatic V1 implementation of the MCP Readiness Audit defined in [prd.md](/Users/yaya/Gizmo/mcp-audit/prd.md) and [audit-ruleset.md](/Users/yaya/Gizmo/mcp-audit/audit-ruleset.md).
 
 ## What it ships
 
